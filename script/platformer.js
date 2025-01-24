@@ -19,10 +19,12 @@ const player = {
     jumpIsRelease: true
 };
 
-const platforms = [
-    { x: 0, y: 350, width: 800, height: 50, color: 'green' },
-    { x: 200, y: 250, width: 100, height: 20, color: 'brown' },
-    { x: 400, y: 200, width: 150, height: 20, color: 'brown' }
+const structs = [
+    { x: -200, y: 0, width: 50, height: 400, color: 'green', type: 'bloc' },
+    { x: -150, y: 0, width: 100, height: 400, color: 'brown', type: 'none' },
+    { x: -150, y: 350, width: 800, height: 50, color: 'green', type: 'bloc' },
+    { x: 200, y: 250, width: 100, height: 20, color: 'brown', type: 'plat' },
+    { x: 400, y: 200, width: 150, height: 20, color: 'brown', type: 'plat' }
 ];
 
 const keys = { left: false, right: false, jump: false, walk: false };
@@ -105,14 +107,23 @@ function updatePlayer()
     player.y += player.dy;
 
     player.isAirborne = true;
-    platforms.forEach((platform) => {
-        if (player.x < platform.x + platform.width && player.x + player.width > platform.x 
-        && player.y + player.height > platform.y && player.y + player.height - player.dy <= platform.y)
+    structs.forEach((struct) => {
+        if (player.x < struct.x + struct.width && player.x + player.width > struct.x 
+        && player.y + player.height > struct.y && player.y + player.height - player.dy <= struct.y
+        && (struct.type == 'plat' || struct.type == 'bloc'))
         {
             player.isAirborne = false;
             player.dy = 0;
-            player.y = platform.y - player.height;
+            player.y = struct.y - player.height;
         }
+
+        /*if (player.x < struct.x + struct.width && player.x + player.width > struct.x 
+        && player.y + player.height > struct.y && player.y + player.height - player.dy <= struct.y
+        && (struct.type == 'plat' || struct.type == 'bloc'))
+        {
+            player.dx = 0;
+            player.y = struct.y - player.height;
+        }*/
     });
 
     if (player.y + player.height > canvas.height)
@@ -127,9 +138,9 @@ function draw()
 {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    platforms.forEach((platform) => {
-        ctx.fillStyle = platform.color;
-        ctx.fillRect(platform.x - player.x + 375, platform.y, platform.width, platform.height);
+    structs.forEach((struct) => {
+        ctx.fillStyle = struct.color;
+        ctx.fillRect(struct.x - player.x + 375, struct.y, struct.width, struct.height);
     });
 
     ctx.fillStyle = player.color;
