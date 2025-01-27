@@ -1,9 +1,9 @@
 const canvas = document.getElementById("gameCanvas");
+
 const ctx = canvas.getContext('2d');
-canvas.width = 800;
-canvas.height = 400;
 
 const gravity = 1;
+
 const player = {
     x: 50,
     y: 300,
@@ -16,15 +16,25 @@ const player = {
     walkSpeed: 5,
     jumpForce: -26,
     isAirborne: false,
-    jumpIsRelease: true
+    jumpIsRelease: true,
+    cameraY: 0,             //init when the game start line 172
+    cameraYWanted: 0,
+    cameraSpeed: 0
 };
 
+/**
+ * 
+ * 
+ * Important: First put none object for the background or elevator objects so that they have priority over collisions.
+ * Then put the other types of object.
+ */
 const structs = [
-    { x: -200, y: 0, width: 50, height: 400, color: 'green', type: 'bloc' },
-    { x: -150, y: 0, width: 100, height: 400, color: 'brown', type: 'none' },
-    { x: -150, y: 350, width: 800, height: 50, color: 'green', type: 'bloc' },
-    { x: 200, y: 250, width: 100, height: 20, color: 'brown', type: 'plat' },
-    { x: 400, y: 200, width: 150, height: 20, color: 'brown', type: 'plat' }
+    { x: -150, y: 0, width: 100, height: 400, color: '#694b37', type: 'none' },                                 //tree (yes, it's a tree, or it will be)
+    { x: -150, y: 350, width: 100, height: 20, color: 'brown', type: 'elevator', baseY:350, maxY:0, speed:-5 }, //elevator
+    { x: -200, y: 0, width: 50, height: 400, color: '#00000000', type: 'bloc' },                                //invisible wall
+    { x: -150, y: 350, width: 800, height: 50, color: 'green', type: 'bloc' },                                  //main floor
+    { x: 200, y: 250, width: 100, height: 20, color: 'brown', type: 'plat' },                                   //platform test
+    { x: 400, y: 200, width: 150, height: 20, color: 'brown', type: 'plat' },                                   //platform test
 ];
 
 const keys = { left: false, right: false, jump: false, walk: false };
@@ -68,7 +78,9 @@ document.addEventListener("keyup", (e) => {
     }
 });
 
-function updatePlayer()
+window.addEventListener("resize", resizeCanvas);
+
+function updateGame()
 {
     speed = player.speed;
     if (keys.walk)
@@ -89,69 +101,136 @@ function updatePlayer()
         player.dx = 0;
     }
 
-    if (keys.jump && !player.isAirborne && player.jumpIsRelease)
+    if (keys.jump && !player.isAirborne 
+    && player.jumpIsRelease)
     {
         player.jumpIsRelease = false;
         player.dy = player.jumpForce;
         player.isAirborne = true;
     }
 
-    if (!keys.jump && player.jumpIsRelease && player.dy < 0 )
+    if (!keys.jump && player.jumpIsRelease 
+    && player.dy < 0 )
     {
         player.dy = 0;
+    }
+
+    if ((player.cameraY < player.cameraYWanted && player.cameraSpeed > 0) 
+    || (player.cameraY > player.cameraYWanted && player.cameraSpeed < 0))
+    {
+        player.cameraY += player.cameraSpeed;
+        player.cameraSpeed = (player.cameraYWanted - player.cameraY) / 20;
     }
 
     player.dy += gravity;
 
-    player.x += player.dx;
-    player.y += player.dy;
-
     player.isAirborne = true;
+
+    console.log(player.cameraY);
+
     structs.forEach((struct) => {
-        if (player.x < struct.x + struct.width && player.x + player.width > struct.x 
-        && player.y + player.height > struct.y && player.y + player.height - player.dy <= struct.y
-        && (struct.type == 'plat' || struct.type == 'bloc'))
+        //if player landing
+        if ((struct.type == 'plat' || struct.type == 'bloc' 
+        || struct.type == 'elevator') && player.x < struct.x + struct.width 
+        && player.x + player.width > struct.x && player.y + player.height <= struct.y 
+        && player.y + player.height + player.dy > struct.y)
         {
             player.isAirborne = false;
             player.dy = 0;
             player.y = struct.y - player.height;
+            player.cameraYWanted = canvas.height - 330 - player.y;
+            player.cameraSpeed = (player.cameraYWanted - player.cameraY) / 20;
         }
 
-        /*if (player.x < struct.x + struct.width && player.x + player.width > struct.x 
-        && player.y + player.height > struct.y && player.y + player.height - player.dy <= struct.y
-        && (struct.type == 'plat' || struct.type == 'bloc'))
+        //if player is on an elevator
+        if (struct.type == 'elevator' && player.x < struct.x + struct.width 
+        && player.x + player.width > struct.x && player.y + player.height == struct.y
+        && struct.y != struct.maxY) 
+        {
+            struct.y += struct.speed;
+            player.y = struct.y - player.height;
+        }
+        else if (struct.type == 'elevator' && !(player.x < struct.x + struct.width 
+        && player.x + player.width > struct.x && player.y + player.height == struct.y) 
+        && struct.y != struct.baseY)
+        {
+            struct.y -= struct.speed;
+        }
+
+        //if player pushing wall from the right
+        if ((struct.type == 'bloc' || struct.type == 'elevator') 
+        && player.x >= struct.x + struct.width && player.x + player.dx < struct.x + struct.width 
+        && player.y < struct.y + struct.height && player.y + player.height > struct.y)
         {
             player.dx = 0;
-            player.y = struct.y - player.height;
-        }*/
+            player.x = struct.x + struct.width;
+        }
+
+        //if player pushing wall from the left
+        if ((struct.type == 'bloc' || struct.type == 'elevator') 
+        && player.x + player.width <= struct.x && player.x + player.width + player.dx > struct.x 
+        && player.y < struct.y + struct.height && player.y + player.height > struct.y)
+        {
+            player.dx = 0;
+            player.x = struct.x - player.width;
+        }
+
+        //if player headbonking roof (idfk man)
+        if ((struct.type == 'bloc' || struct.type == 'elevator') 
+        && player.x < struct.x + struct.width && player.x + player.width > struct.x 
+        && player.y > struct.y + struct.height && player.y + player.dy <= struct.y + struct.height)
+        {
+            player.dy = 0;
+            player.y = struct.y + struct.height;
+        }
     });
 
-    if (player.y + player.height > canvas.height)
-    {
-        player.y = canvas.height - player.height;
-        player.isAirborne = false;
-        player.dy = 0;
-    }
+    player.y += player.dy;
+    player.x += player.dx;
 }
 
 function draw()
 {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    elevators = [];
+
     structs.forEach((struct) => {
-        ctx.fillStyle = struct.color;
-        ctx.fillRect(struct.x - player.x + 375, struct.y, struct.width, struct.height);
+        if (struct.type != 'elevator')
+        {
+            ctx.fillStyle = struct.color;
+            ctx.fillRect(struct.x - player.x + (canvas.width - player.width) / 2, struct.y + player.cameraY, struct.width, struct.height);
+        }
+        else
+        {
+            elevators.push(struct);
+        }
+    });
+
+    elevators.forEach((elevator) => {
+        ctx.fillStyle = elevator.color;
+        ctx.fillRect(elevator.x - player.x + (canvas.width - player.width) / 2, elevator.y + player.cameraY, elevator.width, elevator.height);
     });
 
     ctx.fillStyle = player.color;
-    ctx.fillRect(375, player.y, player.width, player.height);
+    ctx.fillRect((canvas.width - player.width) / 2, player.cameraY + player.y, player.width, player.height);
+}
+
+function resizeCanvas()
+{
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    player.cameraY = canvas.height - 330 - player.y;
+    player.cameraYWanted = canvas.height - 330 - player.y;
 }
 
 function gameLoop()
 {
-    updatePlayer();
+    updateGame();
     draw();
     requestAnimationFrame(gameLoop);
 }
+
+resizeCanvas();
 
 gameLoop();
