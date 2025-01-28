@@ -12,14 +12,17 @@ const player = {
     color: 'blue',
     dx: 0,
     dy: 0,
+    face: 'right',
     speed: 12,
     walkSpeed: 5,
     jumpForce: -26,
     isAirborne: false,
     jumpIsRelease: true,
+    //canAttack: true,
+    //attack: 0,
     cameraY: 0,             //init when the game start line 172
     cameraYWanted: 0,
-    cameraSpeed: 0
+    cameraSpeed: 0,
 };
 
 /**
@@ -35,9 +38,10 @@ const structs = [
     { x: -150, y: 350, width: 800, height: 50, color: 'green', type: 'bloc' },                                  //main floor
     { x: 200, y: 250, width: 100, height: 20, color: 'brown', type: 'plat' },                                   //platform test
     { x: 400, y: 200, width: 150, height: 20, color: 'brown', type: 'plat' },                                   //platform test
+    { x: 400, y: 320, width: 30, height: 30, color: 'purple', type: 'button', active: false, text: 'Luca de Brito', textColor: '#ffffff', textBorderColor: '#000000' },
 ];
 
-const keys = { left: false, right: false, jump: false, walk: false };
+const keys = { left: false, right: false, jump: false, walk: false, attack: false };
 
 document.addEventListener("keydown", (e) => {
     if (e.key === "q" || e.key === "Q")
@@ -55,6 +59,10 @@ document.addEventListener("keydown", (e) => {
     if (e.key === "Shift")
     {
         keys.walk = true;
+    }
+    if (e.key === "l" || e.key === "l")
+    {
+        keys.attack = true;
     }
 });
 
@@ -76,6 +84,11 @@ document.addEventListener("keyup", (e) => {
     {
         keys.walk = false;
     }
+    if (e.key === "l" || e.key === "l")
+    {
+        //player.canAttack = true;
+        keys.attack = false;
+    }
 });
 
 window.addEventListener("resize", resizeCanvas);
@@ -90,10 +103,12 @@ function updateGame()
 
     if (keys.left && !keys.right)
     {
+        player.face = 'left'
         player.dx = -speed;
     }
     else if (keys.right && !keys.left)
     {
+        player.face = 'right'
         player.dx = speed;
     }
     else
@@ -200,6 +215,22 @@ function draw()
         {
             ctx.fillStyle = struct.color;
             ctx.fillRect(struct.x - player.x + (canvas.width - player.width) / 2, struct.y + player.cameraY, struct.width, struct.height);
+
+            if (struct.type == 'button' && struct.active == false)
+            {
+                ctx.font = "48px serif";
+                ctx.fillStyle = struct.textColor;
+                ctx.textAlign = "center";
+
+                const textX = struct.x - player.x + (canvas.width - player.width + struct.width) / 2;
+                const textY = struct.y - 80 + player.cameraY;
+
+                ctx.strokeStyle = struct.textBorderColor;
+                ctx.lineWidth = 4;
+                ctx.strokeText(struct.text, textX, textY);
+
+                ctx.fillText(struct.text, textX, textY);
+            }
         }
         else
         {
