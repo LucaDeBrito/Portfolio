@@ -18,9 +18,14 @@ const player = {
     jumpForce: -26,
     isAirborne: false,
     jumpIsRelease: true,
-    //canAttack: true,
-    //attack: 0,
-    cameraY: 0,             //init when the game start line 172
+    attacking: false,
+    canAttack: true,
+    activeAttackHitbox: false,
+    currentAttackTimer: 0,
+    maxAttackTimer: 15,
+    firstActiveAttackHitbox: 3,
+    lastActiveAttackHitbox: 5,
+    cameraY: 0,                 //init when the game start line 172
     cameraYWanted: 0,
     cameraSpeed: 0,
 };
@@ -86,7 +91,7 @@ document.addEventListener("keyup", (e) => {
     }
     if (e.key === "l" || e.key === "l")
     {
-        //player.canAttack = true;
+        player.canAttack = true;
         keys.attack = false;
     }
 });
@@ -101,14 +106,50 @@ function updateGame()
         speed = player.walkSpeed;
     }
 
+    if (keys.attack && !player.attacking
+    && player.canAttack)
+    {
+        player.canAttack = false;
+        player.attacking = true;
+    }
+
+    if (player.attacking)
+    {
+        if (player.currentAttackTimer <= player.maxAttackTimer)
+        {
+            currentAttackTime++;
+            
+            if (player.currentAttackTime >= player.firstActiveAttackHitbox && player.currentAttackTime <= player.lastActiveAttackHitbox)
+            {
+                console.log('attack');
+                activeAttackHitbox = true;
+            }
+            else
+            {
+                activeAttackHitbox = false;
+            }
+        }
+        else
+        {
+            player.currentAttackTimer = 0;
+            player.attacking = false;
+        }
+    }
+
     if (keys.left && !keys.right)
     {
-        player.face = 'left'
+        if (!activeAttackHitbox)
+        {
+            player.face = 'left';
+        }
         player.dx = -speed;
     }
     else if (keys.right && !keys.left)
     {
-        player.face = 'right'
+        if (!activeAttackHitbox)
+        {
+            player.face = 'right';
+        }
         player.dx = speed;
     }
     else
