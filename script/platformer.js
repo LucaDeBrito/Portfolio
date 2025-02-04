@@ -25,6 +25,7 @@ const player = {
     maxAttackTimer: 15,
     firstActiveAttackHitbox: 3,
     lastActiveAttackHitbox: 5,
+    attackRange: 80,
     cameraY: 0,                 //init when the game start line 172
     cameraYWanted: 0,
     cameraSpeed: 0,
@@ -43,7 +44,7 @@ const structs = [
     { x: -150, y: 350, width: 800, height: 50, color: 'green', type: 'bloc' },                                  //main floor
     { x: 200, y: 250, width: 100, height: 20, color: 'brown', type: 'plat' },                                   //platform test
     { x: 400, y: 200, width: 150, height: 20, color: 'brown', type: 'plat' },                                   //platform test
-    { x: 400, y: 320, width: 30, height: 30, color: 'purple', type: 'button', active: false, text: 'Luca de Brito', textColor: '#ffffff', textBorderColor: '#000000' },
+    { x: 400, y: 320, width: 30, height: 30, color: 'purple', type: 'button', active: false, alreadyHit: false, text: 'Luca de Brito', textColor: '#ffffff', textBorderColor: '#000000' },
 ];
 
 const keys = { left: false, right: false, jump: false, walk: false, attack: false };
@@ -65,7 +66,7 @@ document.addEventListener("keydown", (e) => {
     {
         keys.walk = true;
     }
-    if (e.key === "l" || e.key === "l")
+    if (e.key === "l" || e.key === "L")
     {
         keys.attack = true;
     }
@@ -89,7 +90,7 @@ document.addEventListener("keyup", (e) => {
     {
         keys.walk = false;
     }
-    if (e.key === "l" || e.key === "l")
+    if (e.key === "l" || e.key === "L")
     {
         player.canAttack = true;
         keys.attack = false;
@@ -117,28 +118,34 @@ function updateGame()
     {
         if (player.currentAttackTimer <= player.maxAttackTimer)
         {
-            currentAttackTime++;
+            player.currentAttackTimer++;
             
-            if (player.currentAttackTime >= player.firstActiveAttackHitbox && player.currentAttackTime <= player.lastActiveAttackHitbox)
+            if (player.currentAttackTimer >= player.firstActiveAttackHitbox && player.currentAttackTimer <= player.lastActiveAttackHitbox)
             {
-                console.log('attack');
-                activeAttackHitbox = true;
+                player.activeAttackHitbox = true;
             }
             else
             {
-                activeAttackHitbox = false;
+                player.activeAttackHitbox = false;
             }
         }
         else
         {
             player.currentAttackTimer = 0;
             player.attacking = false;
+            
+            structs.forEach((struct) => {
+                if (struct.type == 'button' && struct.alreadyHit)
+                {
+                    struct.alreadyHit = false;
+                }
+            });
         }
     }
 
     if (keys.left && !keys.right)
     {
-        if (!activeAttackHitbox)
+        if (!player.activeAttackHitbox)
         {
             player.face = 'left';
         }
@@ -146,7 +153,7 @@ function updateGame()
     }
     else if (keys.right && !keys.left)
     {
-        if (!activeAttackHitbox)
+        if (!player.activeAttackHitbox)
         {
             player.face = 'right';
         }
@@ -182,8 +189,6 @@ function updateGame()
 
     player.isAirborne = true;
 
-    console.log(player.cameraY);
-
     structs.forEach((struct) => {
         //if player landing
         if ((struct.type == 'plat' || struct.type == 'bloc' 
@@ -194,7 +199,7 @@ function updateGame()
             player.isAirborne = false;
             player.dy = 0;
             player.y = struct.y - player.height;
-            player.cameraYWanted = canvas.height - 330 - player.y;
+            player.cameraYWanted = canvas.height - Math.min(330, canvas.height*0.35) - player.y;
             player.cameraSpeed = (player.cameraYWanted - player.cameraY) / 20;
         }
 
@@ -239,6 +244,19 @@ function updateGame()
             player.dy = 0;
             player.y = struct.y + struct.height;
         }
+
+        //if button attacked
+        if (struct.type == 'button' && !struct.alreadyHit
+        && player.activeAttackHitbox && ((player.face == 'left'
+        && player.x - player.attackRange < struct.x + struct.width && player.x > struct.x
+        && player.y < struct.y + struct.height && player.y + player.height > struct.y)
+        || (player.face == 'right' && player.x + player.width < struct.x + struct.width
+        && player.x + player.width + player.attackRange > struct.x && player.y < struct.y + struct.height
+        && player.y + player.height > struct.y)))
+        {
+            struct.active = !struct.active;
+            struct.alreadyHit = true;
+        }
     });
 
     player.y += player.dy;
@@ -257,7 +275,7 @@ function draw()
             ctx.fillStyle = struct.color;
             ctx.fillRect(struct.x - player.x + (canvas.width - player.width) / 2, struct.y + player.cameraY, struct.width, struct.height);
 
-            if (struct.type == 'button' && struct.active == false)
+            if (struct.type == 'button' && struct.active == true)
             {
                 ctx.font = "48px serif";
                 ctx.fillStyle = struct.textColor;
@@ -286,14 +304,27 @@ function draw()
 
     ctx.fillStyle = player.color;
     ctx.fillRect((canvas.width - player.width) / 2, player.cameraY + player.y, player.width, player.height);
+
+    if (player.activeAttackHitbox)
+    {
+        ctx.fillStyle = '#ffffff';
+        if (player.face == 'left')
+        {
+            ctx.fillRect((canvas.width - player.width) / 2 - player.attackRange, player.cameraY + player.y, player.attackRange, player.height);
+        }
+        else
+        {
+            ctx.fillRect((canvas.width + player.width) / 2, player.cameraY + player.y, player.attackRange, player.height);
+        }
+    }
 }
 
 function resizeCanvas()
 {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    player.cameraY = canvas.height - 330 - player.y;
-    player.cameraYWanted = canvas.height - 330 - player.y;
+    player.cameraY = canvas.height - Math.min(330, canvas.height*0.35) - player.y;
+    player.cameraYWanted = player.cameraY;
 }
 
 function gameLoop()
