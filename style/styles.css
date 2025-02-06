@@ -2,18 +2,108 @@ body
 {
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #87CEEB;
-    overflow: hidden;
     font-family: Arial, sans-serif;
 }
+
+#game
+{
+    overflow: hidden;
+}
   
+#backUp
+{
+    line-height: 1.6;
+    color: #333333;
+}
+
 #gameCanvas
 {
-    border: 2px solid #000;
-    display: block;
     background-color: #191970;
+}
+
+header
+{
+    background-color: #191970;
+    color: #ffffff;
+    padding: 1rem 0;
+    /*position: sticky; maybe*/
+}
+
+.navbar
+{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar a
+{
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.navbar a:hover
+{
+    color: #57ff22;
+}
+
+.section
+{
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.section a
+{
+    color: #333333;
+    text-decoration: none;
+}
+
+#about
+{
+    background-color: #efefff;
+}
+
+#projects
+{
+    background-color: #efefff;
+}
+
+#projects .gallery
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.project-card
+{
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    padding: 1rem;
+    width: 250px;
+    box-shadow: 0 2px 5px #0000001a;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover
+{
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px #00000033;
+}
+
+footer
+{
+    text-align: center;
+    padding: 1rem 0;
+    background-color: #191970;
+    color: #ffffff;
 }

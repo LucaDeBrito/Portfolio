@@ -42,9 +42,11 @@ const structs = [
     { x: -150, y: 350, width: 100, height: 20, color: 'brown', type: 'elevator', baseY:350, maxY:0, speed:-5 }, //elevator
     { x: -200, y: 0, width: 50, height: 400, color: '#00000000', type: 'bloc' },                                //invisible wall
     { x: -150, y: 350, width: 800, height: 50, color: 'green', type: 'bloc' },                                  //main floor
-    { x: 200, y: 250, width: 100, height: 20, color: 'brown', type: 'plat' },                                   //platform test
-    { x: 400, y: 200, width: 150, height: 20, color: 'brown', type: 'plat' },                                   //platform test
+    { x: -950, y: 0, width: 800, height: 50, color: 'green', type: 'bloc' },                                    //floor 2 left
+    { x: -50, y: 0, width: 800, height: 50, color: 'green', type: 'bloc' },                                     //floor 2 right
     { x: 400, y: 320, width: 30, height: 30, color: 'purple', type: 'button', active: false, alreadyHit: false, text: 'Luca de Brito', textColor: '#ffffff', textBorderColor: '#000000' },
+    { x: -700, y: -30, width: 30, height: 30, color: 'purple', type: 'button', active: false, alreadyHit: false, text: 'Luca de Brito', textColor: '#ffffff', textBorderColor: '#000000' },
+    { x: -350, y: -30, width: 30, height: 30, color: 'purple', type: 'button', active: false, alreadyHit: false, text: 'Projet', textColor: '#ffffff', textBorderColor: '#000000' },
 ];
 
 const keys = { left: false, right: false, jump: false, walk: false, attack: false };
