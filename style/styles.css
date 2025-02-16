@@ -24,11 +24,11 @@ footer
 
 header
 {
+    
     background-image: url('../images/Leaves\ Texture.png');
     background-repeat: repeat;
     background-size: 20%;
     background-position: bottom left;
-    color: #ffffff;
 }
 
 img
@@ -42,16 +42,50 @@ img
 #backUp
 {
     line-height: 1.6;
-    color: #cccccc;
+    color: #c5e1f5;
 }
 
 #game
 {
     overflow: hidden;
 }
-  
+
+.card.flipped
+{
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px #0000001a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+}
+
+.card-back
+{
+    transform: rotateY(180deg);
+    text-align: center;
+}
+
+
+
 #skills .card
 {
+    position: relative;
+    perspective: 1000px;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease, box-shadow 0.6s ease;
+
+
     background: #e3e4e6;
     border: 1px solid #86827b;
     border-radius: 8px;
@@ -59,13 +93,12 @@ img
     width: 250px;
     height: 250px;
     box-shadow: 0 2px 5px #0000001a;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #333333;
 }
-
+/*merge the 2*/
 #projects .card
 {
     background: #e3e4e6;
@@ -83,6 +116,13 @@ img
     color: #333333;
 }
 
+.needName
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #projects .card p
 {
     flex-grow: 1;
@@ -90,8 +130,7 @@ img
     align-items: center;
 }
 
-.card:hover
-{
+.card:hover:not(.flipped) {
     transform: translateY(-5px);
     box-shadow: 0 4px 10px #00000033;
 }
@@ -118,18 +157,18 @@ img
 {
     display: inline-block;
     padding: 0.75rem 1.5rem;
-    background-color: transparent;
-    color: #ffffff;
+    /*background-color: transparent;*/
+    color: #ff33aa;
     font-weight: 900;
     text-decoration: none;
     transition: background-color 0.3s ease;
-    font-size: 2.5rem;
-    -webkit-text-stroke: 0.175rem #000000;
+    font-size: 1rem;
+    /*-webkit-text-stroke: 0.175rem #000000;*/
 }
 
 .nav-btn:hover
 {
-    background-color: #3d0f3d;
+    background-color: #0000007f;
 }
 
 .section
@@ -140,7 +179,7 @@ img
 
 .section a
 {
-    color: #cccccc;
+    color: #c5e1f5;
     text-decoration: none;
 }
 

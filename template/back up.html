@@ -1,71 +1,185 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luca de Brito</title>
-    <link rel="stylesheet" href="../style/styles.css">
-</head>
-<body id="backUp">
-    <header>
-        <nav>
-            <ul class="navbar">
-                <li><a href="#about" class="nav-btn">A propos</a></li>
-                <li><a href="#skills" class="nav-btn">Compétences</a></li>
-                <li><a href="#projects" class="nav-btn">Projets</a></li>
-                <li><a href="#contact" class="nav-btn">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Luca de Brito</title>
+        <link rel="stylesheet" href="../style/styles.css">
+    </head>
+    <body id="backUp">
+        <header>
+            <nav>
+                <ul class="navbar">
+                    <li><a href="#about" class="nav-btn"><h2>A propos</h2></a></li>
+                    <li><a href="#skills" class="nav-btn"><h2>Compétences</h2></a></li>
+                    <li><a href="#projects" class="nav-btn"><h2>Projets</h2></a></li>
+                    <li><a href="#contact" class="nav-btn"><h2>Contact</h2></a></li>
+                </ul>
+            </nav>
+        </header>
 
-    <main>
-        <section id="about" class="section">
-            <h1>Bienvenue sur mon portfolio</h1>
-            <p>Je suis Luca de Brito, un développeur passionné par la création de sites web modernes et élégants.</p>
-        </section>
+        <main>
+            <section id="about" class="section">
+                <h1>Bienvenue sur mon portfolio</h1>
+                <p>Je suis Luca de Brito, un développeur passionné par la création de sites web modernes et élégants.</p>
+            </section>
 
-        <section id="skills" class="section">
-            <h1>Mes Compétences</h1>
-            <div class="gallery">
-                <div class="card">
-                    <img src="../images/HTML5.png" alt="HTML5">
-                </div>
-                <div class="card">
-                    <img src="../images/CSS.png" alt="CSS">
-                </div>
-                <div class="card">
-                    <img src="../images/JavaScript.png" alt="JavaScript">
-                </div>
-                <div class="card">
-                    <img src="../images/C++.png" alt="C++">
-                </div>
-            </div>
-        </section>
-
-        <section id="projects" class="section">
-            <h2>Mes Projets</h2>
-            <div class="gallery">
-                <div class="card">
-                    <h3>Ecofloc</h3>
-                    <p>Description du projet.</p>
-                </div>
-                <a href="index.html">
-                    <div class="card">
-                        <h3>Jeu de Platforme</h3>
-                        <p>Pas fini.</p>
+            <section id="skills" class="section">
+                <h1>Mes Compétences</h1>
+                <div class="gallery">
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="card-front">
+                            <img src="../images/HTML5.png" alt="HTML5">
+                        </div>
+                        <div class="card-back">
+                            <p>HTML5 est le langage standard pour la structuration des pages web.</p>
+                        </div>
                     </div>
-                </a>
-            </div>
-        </section>
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="card-front">
+                            <img src="../images/CSS.png" alt="CSS">
+                        </div>
+                        <div class="card-back">
+                            <p> </p>
+                        </div>
+                    </div>
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="card-front">
+                            <img src="../images/JavaScript.png" alt="JavaScript">
+                        </div>
+                        <div class="card-back">
+                            <p> </p>
+                        </div>
+                    </div>
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="card-front">
+                            <img src="../images/C++.png" alt="C++">
+                        </div>
+                        <div class="card-back">
+                            <p> </p>
+                        </div>
+                    </div>
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="card-front">
+                            <img src="../images/Java.png" alt="Java">
+                        </div>
+                        <div class="card-back">
+                            <p> </p>
+                        </div>
+                    </div>
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="card-front">
+                            <img src="../images/Python.png" alt="Python">
+                        </div>
+                        <div class="card-back">
+                            <p> </p>
+                        </div>
+                    </div>
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="card-front">
+                            <img src="../images/C.png" alt="C">
+                        </div>
+                        <div class="card-back">
+                            <p> </p>
+                        </div>
+                    </div>
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="card-front">
+                            <img src="../images/PHP.png" alt="PHP">
+                        </div>
+                        <div class="card-back">
+                            <p> </p>
+                        </div>
+                    </div>
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="card-front">
+                            <img src="../images/SQL.png" alt="SQL">
+                        </div>
+                        <div class="card-back">
+                            <p> </p>
+                        </div>
+                    </div>
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="card-front">
+                            <img src="../images/Android.png" alt="Android">
+                        </div>
+                        <div class="card-back">
+                            <p> </p>
+                        </div>
+                    </div>
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="card-front">
+                            <img src="../images/Symfony.png" alt="Symfony">
+                        </div>
+                        <div class="card-back">
+                            <p> </p>
+                        </div>
+                    </div>
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="card-front needName">
+                            <img src="../images/Vue.js.png" alt="Vue.js">
+                            <h3>Vue.js</h3>
+                        </div>
+                        <div class="card-back">
+                            <p> </p>
+                        </div>
+                    </div>
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="card-front">
+                            <img src="../images/Qt.png" alt="Qt">
+                        </div>
+                        <div class="card-back">
+                            <p> </p>
+                        </div>
+                    </div>
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="card-front needName">
+                            <img src="../images/Angular.png" alt="Angular">
+                            <h3>Angular</h3>
+                        </div>
+                        <div class="card-back">
+                            <p> </p>
+                        </div>
+                    </div>
+                    <div class="card" onclick="flipCard(this)">
+                        <div class="card-front needName">
+                            <img src="../images/Laravel.png" alt="Laravel">
+                            <h3>Laravel</h3>
+                        </div>
+                        <div class="card-back">
+                            <p> </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        <section id="contact" class="section">
-            <h2>Contact</h2>
-            <p>Email : <a href="mailto:lucadb0603@gmail.com">lucadb0603@gmail.com</a></p>
-        </section>
-    </main>
+            <section id="projects" class="section">
+                <h2>Mes Projets</h2>
+                <div class="gallery">
+                    <div class="card">
+                        <h3>Ecofloc</h3>
+                        <p>Description du projet.</p>
+                    </div>
+                    <a href="index.html">
+                        <div class="card">
+                            <h3>Jeu de Platforme</h3>
+                            <p>Pas fini.</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
 
-    <footer>
-        <p>&copy; 2025 Luca de Brito.</p>
-    </footer>
-</body>
+            <section id="contact" class="section">
+                <h2>Contact</h2>
+                <p>Telephone : <a href="tel:+33638195752">06 38 19 57 52</a></p>
+                <p>Email : <a href="mailto:lucadb0603@gmail.com">lucadb0603@gmail.com</a></p>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Luca de Brito.</p>
+        </footer>
+
+        <script src="../script/scripts.js"></script>
+    </body>
 </html>
