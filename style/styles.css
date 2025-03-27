@@ -1,32 +1,73 @@
+@font-face {
+    font-family: 'SuperMarioWorld';
+    src: url('../fonts/Super_Mario_World_Text_Box.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body
 {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'SuperMarioWorld', sans-serif;
     background: linear-gradient(#101820, #0a0f1e);
 }
 
 footer
 {
     text-align: center;
-    padding: 1rem 0;
-    background-image: url('../images/Grass\ Texture.png');
+    position: relative;
+    height: 200px;
+    padding-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.footer-top
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-image: url('../images/Grass.png');
+    background-repeat: repeat-x;
+    background-size: auto 200px;
+}
+
+.footer-bottom
+{
+    position: absolute;
+    top: 100px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/Dirt.png');
     background-repeat: repeat;
-    background-size: 10%;
-    background-position: top left;
+    background-size: 200px 200px;
+}
+
+footer p
+{
+    position: relative;
     color: #000000;
     font-weight: bold;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-    font-size: 2.5rem;
-    /*-webkit-text-stroke: 0.15rem #000000;*/
+    font-size: 1.5rem;
 }
 
 .site-title
 {
     font-weight: bold;
-    padding-left: 1rem;
+    padding-left: 0.5rem;
     color: #000000;
+    margin: 0;
+}
+
+.navbar h2
+{
+    margin: 0;
 }
 
 header
@@ -36,14 +77,23 @@ header
     align-items: center;
     background-image: url('../images/Leaves\ Texture.png');
     background-repeat: repeat;
-    background-size: 20%;
+    background-size: 200px 200px;
     background-position: bottom left;
+    font-size: 1rem;
+}
+
+@media (max-width: 1536px)
+{
+    header
+    {
+        font-size: 0.5rem;
+    }
 }
 
 img
 {
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 176px;
+    max-height: 176px;
     width: auto;
     height: auto;
 }
@@ -67,7 +117,7 @@ img
 .card-front,
 .card-back
 {
-    position: absolute;
+    /*position: absolute;
     width: 100%;
     height: 100%;
     border-radius: 8px;
@@ -75,7 +125,16 @@ img
     display: flex;
     align-items: center;
     justify-content: center;
+    backface-visibility: hidden;*/
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     backface-visibility: hidden;
+    background: url("../images/Bloc.png") no-repeat center center;
+    background-size: cover;
 }
 
 .card-back
@@ -87,7 +146,9 @@ img
 
 
 
-#skills .card
+#skills .card,
+#projects .card,
+#experience .card
 {
     position: relative;
     perspective: 1000px;
@@ -96,20 +157,38 @@ img
     transition: transform 0.6s ease, box-shadow 0.6s ease;
 
 
-    background: #e3e4e6;
-    border: 1px solid #86827b;
-    border-radius: 8px;
+    background: url("../images/Bloc.png") no-repeat center center;
+    background-size: cover;
+    
     padding: 1rem;
     width: 250px;
     height: 250px;
-    box-shadow: 0 2px 5px #0000001a;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #333333;
 }
+
+#skills .card
+{
+    justify-content: center;
+}
+
+#projects .card,
+#experience .card
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#experience .card
+{
+    justify-content: center;
+}
+
 /*merge the 2*/
-#projects .card
+/*#projects .card
 {
     background: #e3e4e6;
     border: 1px solid #86827b;
@@ -124,7 +203,7 @@ img
     align-items: center;
     justify-content: flex-start;
     color: #333333;
-}
+}*/
 
 .needName
 {
@@ -133,16 +212,18 @@ img
     align-items: center;
 }
 
-#projects .card p
+#projects .card p,
+#experience .card p
 {
     flex-grow: 1;
     display: flex;
     align-items: center;
+    font-size: 0.6rem;
 }
 
-.card:hover:not(.flipped) {
+.card:hover:not(.flipped)
+{
     transform: translateY(-5px);
-    box-shadow: 0 4px 10px #00000033;
 }
 
 .gallery
@@ -163,22 +244,70 @@ img
     margin: 0;
 }
 
+.navbar li
+{
+    position: relative;
+    margin: 0 10px;
+}
+
+.nav-wrapper
+{
+    position: relative;
+    z-index: 1;
+}
+
 .nav-btn
 {
+    position: relative;
     display: inline-block;
-    padding: 0.75rem 1.5rem;
-    /*background-color: transparent;*/
+    padding: 0.6rem;
     color: #000000;
     font-weight: 900;
     text-decoration: none;
-    transition: background-color 0.3s ease;
-    font-size: 1rem;
-    /*-webkit-text-stroke: 0.175rem #000000;*/
+    /*transition: background-color 0.3s ease;*/
 }
 
-.nav-btn:hover
+/*.nav-btn:hover
 {
     background-color: #ff00007f;
+}*/
+
+.nav-btn:hover .gif-overlay
+{
+    opacity: 1;
+}
+
+.gif-overlay {
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    background-size: cover;
+    opacity: 0;
+    z-index: 10;
+}
+
+.gif-overlay.top-left {
+    top: 0;
+    left: 0;
+    background-image: url('../images/Corner\ Haut\ Gauche.gif');
+}
+
+.gif-overlay.top-right {
+    top: 0;
+    right: 0;
+    background-image: url('../images/Corner\ Haut\ Droite.gif');
+}
+
+.gif-overlay.bottom-left {
+    bottom: 0;
+    left: 0;
+    background-image: url('../images/Corner\ Bas\ Gauche.gif');
+}
+
+.gif-overlay.bottom-right {
+    bottom: 0;
+    right: 0;
+    background-image: url('../images/Corner\ Bas\ Droite.gif');
 }
 
 .section
@@ -196,4 +325,17 @@ img
 *
 {
     scrollbar-color: #6d4c41  #3e2723;
+}
+
+#about {
+    position: relative;
+    overflow: hidden;
+}
+
+.background-image {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-size: contain;
+    background-repeat: no-repeat;
 }

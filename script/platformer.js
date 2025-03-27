@@ -5,7 +5,7 @@ const ctx = canvas.getContext('2d');
 const gravity = 1;
 
 const player = {
-    x: 50,
+    x: 80,
     y: 300,
     width: 50,
     height: 50,
@@ -44,7 +44,7 @@ const structs = [
     { x: -150, y: 350, width: 800, height: 50, color: 'green', type: 'bloc' },                                  //main floor
     { x: -950, y: 0, width: 800, height: 50, color: 'green', type: 'bloc' },                                    //floor 2 left
     { x: -50, y: 0, width: 800, height: 50, color: 'green', type: 'bloc' },                                     //floor 2 right
-    { x: 400, y: 320, width: 30, height: 30, color: 'purple', type: 'button', active: false, alreadyHit: false, text: 'Luca de Brito', textColor: '#ffffff', textBorderColor: '#000000' },
+    { x: 180, y: 320, width: 30, height: 30, color: 'purple', type: 'button', active: true, alreadyHit: false, text: 'ZQSD pour se déplacer\nL pour attaquer', textColor: '#ffffff', textBorderColor: '#000000' },
     { x: -700, y: -30, width: 30, height: 30, color: 'purple', type: 'button', active: false, alreadyHit: false, text: 'Luca de Brito', textColor: '#ffffff', textBorderColor: '#000000' },
     { x: -350, y: -30, width: 30, height: 30, color: 'purple', type: 'button', active: false, alreadyHit: false, text: 'Projet', textColor: '#ffffff', textBorderColor: '#000000' },
 ];
@@ -288,9 +288,12 @@ function draw()
 
                 ctx.strokeStyle = struct.textBorderColor;
                 ctx.lineWidth = 4;
-                ctx.strokeText(struct.text, textX, textY);
-
-                ctx.fillText(struct.text, textX, textY);
+                
+                lines = struct.text.split('\n');
+                lines.forEach((line, index) => {
+                    ctx.strokeText(line, textX, textY + index * 50);
+                    ctx.fillText(line, textX, textY + index * 50);
+                });
             }
         }
         else
