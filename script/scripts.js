@@ -12,10 +12,10 @@ function getRandomBackground() {
         createBackgroundImage(imgSrc, aboutSection);
     }
     
-    if (Math.random() < 0.01) { // 1/100 chance for Stari.png
+    if (Math.random() < 0.1) { // 1/10 chance for Stari.png
         createBackgroundImage('../images/Stari.png', aboutSection);
     }
-    if (Math.random() < 0.001) { // 1/1000 chance for Staross.png
+    if (Math.random() < 0.01) { // 1/100 chance for Staross.png
         createBackgroundImage('../images/Staross.png', aboutSection);
     }
 }

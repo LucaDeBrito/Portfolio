@@ -61,7 +61,7 @@ footer p
 {
     font-weight: bold;
     padding-left: 0.5rem;
-    color: #000000;
+    color: #fff;
     margin: 0;
 }
 
@@ -261,7 +261,7 @@ img
     position: relative;
     display: inline-block;
     padding: 0.6rem;
-    color: #000000;
+    color: #fff;
     font-weight: 900;
     text-decoration: none;
     /*transition: background-color 0.3s ease;*/
