@@ -242,6 +242,11 @@ img
     margin-top: 2rem;
 }
 
+#project .gallery
+{
+    flex-direction: column;
+}
+
 .navbar
 {
     list-style: none;
