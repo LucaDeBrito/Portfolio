@@ -74,6 +74,9 @@ footer p
 
 header
 {
+    position: sticky;
+    top: 0;
+    z-index: 2;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -350,4 +353,8 @@ img
     height: 50px;
     background-size: contain;
     background-repeat: no-repeat;
+}
+
+.card h5 {
+    padding-top: 15px;
 }

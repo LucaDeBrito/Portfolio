@@ -1,3 +1,8 @@
 -formation: ok
 -changer header (border text et hover): ok
 -Foramtion experience et l'autre en colonne: ok
+
+faire CV télécharchable
+add github
+sticky menu
+texte dans bloc
