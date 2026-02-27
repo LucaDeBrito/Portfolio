@@ -155,7 +155,8 @@ img
 #skills .card,
 #projects .card,
 #experience .card,
-#formation .card
+#formation .card,
+#contact .card
 {
     position: relative;
     perspective: 1000px;
@@ -174,6 +175,12 @@ img
     align-items: center;
     justify-content: center;
     color: #333;
+}
+
+#contact .card
+{
+    width: 100px;
+    height: 100px;
 }
 
 #skills .card

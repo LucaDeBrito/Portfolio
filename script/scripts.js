@@ -29,4 +29,13 @@ function createBackgroundImage(src, parent) {
     parent.appendChild(img);
 }
 
+function telecharger() {
+    const lien = document.createElement("a");
+    lien.href = "../files/De Brito Luca CV.pdf";
+    lien.download = "../files/De Brito Luca CV.pdf";
+    document.body.appendChild(lien);
+    lien.click();
+    document.body.removeChild(lien);
+}
+
 getRandomBackground();
